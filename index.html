@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦁 Lion Brain - Cannes Lions Creative Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PptxGenJS/3.12.0/pptxgen.bundle.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #f39c12, #d68910);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(243, 156, 18, 0.3);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #f39c12;
+            font-size: 1.1em;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1em;
+            font-family: inherit;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #f39c12;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(135deg, #f39c12, #d68910);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(243, 156, 18, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button:disabled:hover {
+            transform: none;
+        }
+
+        .output-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .idea-card {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(214, 137, 16, 0.1));
+            border-left: 4px solid #f39c12;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .idea-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 30px rgba(243, 156, 18, 0.3);
+        }
+
+        .idea-card h3 {
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .idea-card p {
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .technique-tag {
+            display: inline-block;
+            background: rgba(243, 156, 18, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-top: 10px;
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .select-idea-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 20px;
+            font-size: 0.9em;
+            background: rgba(243, 156, 18, 0.3);
+            border: 1px solid #f39c12;
+        }
+
+        .select-idea-btn.selected {
+            background: #f39c12;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #f39c12;
+        }
+
+        .ppt-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .idea-card {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .idea-card:nth-child(1) { animation-delay: 0.1s; }
+        .idea-card:nth-child(2) { animation-delay: 0.2s; }
+        .idea-card:nth-child(3) { animation-delay: 0.3s; }
+        .idea-card:nth-child(4) { animation-delay: 0.4s; }
+        .idea-card:nth-child(5) { animation-delay: 0.5s; }
+        .idea-card:nth-child(6) { animation-delay: 0.6s; }
+        .idea-card:nth-child(7) { animation-delay: 0.7s; }
+        .idea-card:nth-child(8) { animation-delay: 0.8s; }
+        .idea-card:nth-child(9) { animation-delay: 0.9s; }
+        .idea-card:nth-child(10) { animation-delay: 1s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦁 Lion Brain</h1>
+            <p class="tagline">Cannes Lions-Level Ideation System</p>
+        </header>
+
+        <div class="input-section">
+            <label>📋 Your Creative Brief</label>
+            <textarea id="brief" placeholder="Paste your brief here or describe: Brand, Audience, Challenge, Objective..."></textarea>
+
+            <label>💰 Budget Range</label>
+            <input type="text" id="budget" placeholder="e.g., $50K - $100K, Low budget, Enterprise level...">
+
+            <label>⏰ Timeline</label>
+            <input type="text" id="timeline" placeholder="e.g., 3 months, Q2 2024, Fast turnaround...">
+
+            <button onclick="generateIdeas()">🔥 Generate 10 Big Ideas</button>
+        </div>
+
+        <div class="output-section" id="output">
+            <h2 style="color: #f39c12; margin-bottom: 20px;">💡 Your Big Ideas</h2>
+            <div id="ideas-container"></div>
+
+            <div class="ppt-section">
+                <h3 style="color: #f39c12; margin-bottom: 15px;">📊 Export to PowerPoint</h3>
+                <p style="margin-bottom: 15px; opacity: 0.8;">Select an idea above, then generate your presentation</p>
+                <button onclick="generatePPT()" id="pptBtn" disabled>📥 Generate PowerPoint</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let skillData = null;
+        let selectedIdea = null;
+        let currentBrief = null;
+
+        // Load skill.md file
+        async function loadSkillData() {
+            try {
+                const response = await fetch('skill.md');
+                const markdown = await response.text();
+                skillData = parseSkillMarkdown(markdown);
+                console.log('✅ Skill data loaded successfully');
+            } catch (error) {
+                console.error('❌ Error loading skill.md:', error);
+                alert('Error loading skill.md file. Make sure it is in the same directory as index.html');
+            }
+        }
+
+        // Parse the markdown file
+        function parseSkillMarkdown(markdown) {
+            const data = {
+                techniques: [],
+                linkedinInsights: '',
+                criteria: []
+            };
+
+            // Extract techniques
+            const techniqueRegex = /### \d+\. (.+?)
+\*\*(.+?)\*\*
+
+(.+?)
+
+\*\*Example Prompts:\*\*
+- (.+?)
+- (.+?)
+/gs;
+            let match;
+            while ((match = techniqueRegex.exec(markdown)) !== null) {
+                data.techniques.push({
+                    name: match[1].trim(),
+                    tagline: match[2].trim(),
+                    description: match[3].trim(),
+                    examples: [match[4].trim(), match[5].trim()]
+                });
+            }
+
+            return data;
+        }
+
+        // Generate ideas based on brief
+        async function generateIdeas() {
+            const brief = document.getElementById('brief').value;
+            const budget = document.getElementById('budget').value;
+            const timeline = document.getElementById('timeline').value;
+
+            if (!brief) {
+                alert('Please enter your creative brief!');
+                return;
+            }
+
+            if (!skillData) {
+                await loadSkillData();
+            }
+
+            currentBrief = { brief, budget, timeline };
+
+            const output = document.getElementById('output');
+            const container = document.getElementById('ideas-container');
+            
+            output.style.display = 'block';
+            container.innerHTML = '<div class="loading">🦁 Thinking like a Lion... Generating ideas...</div>';
+
+            // Simulate generation time
+            setTimeout(() => {
+                const ideas = createIdeasFromBrief(brief, budget, timeline);
+                displayIdeas(ideas);
+            }, 1500);
+        }
+
+        // Create ideas using the skill.md framework
+        function createIdeasFromBrief(brief, budget, timeline) {
+            const ideas = [];
+            const techniques = skillData.techniques;
+
+            // Generate 2 ideas per technique
+            techniques.forEach((technique, index) => {
+                for (let i = 0; i < 2; i++) {
+                    const ideaNumber = (index * 2) + i + 1;
+                    ideas.push({
+                        number: ideaNumber,
+                        technique: technique.name,
+                        tagline: technique.tagline,
+                        title: `${technique.name} Approach ${i + 1}`,
+                        bigIdea: generateBigIdea(brief, technique, i),
+                        humanInsight: generateHumanInsight(brief, technique),
+                        linkedinInsight: generateLinkedInInsight(brief),
+                        execution: generateExecution(brief, technique, budget, timeline, i)
+                    });
+                }
+            });
+
+            return ideas.slice(0, 10);
+        }
+
+        // Generate big idea based on technique
+        function generateBigIdea(brief, technique, variant) {
+            const templates = [
+                `Use ${technique.tagline.toLowerCase()} to transform how the audience sees the challenge in the brief.`,
+                `Apply ${technique.name} to create unexpected value that makes the brand indispensable.`,
+                `Leverage ${technique.tagline.toLowerCase()} to turn the brief's core challenge into the campaign's biggest strength.`
+            ];
+            return templates[variant % templates.length];
+        }
+
+        // Generate human insight
+        function generateHumanInsight(brief, technique) {
+            const insights = [
+                "People don't want to be sold to—they want to be part of something meaningful.",
+                "The best brands don't interrupt culture; they contribute to it.",
+                "Professionals crave authenticity over perfection in their feed.",
+                "People remember how you made them feel, not what you said.",
+                "The most shared content makes people look smart for sharing it."
+            ];
+            return insights[Math.floor(Math.random() * insights.length)];
+        }
+
+        // Generate LinkedIn-specific insight
+        function generateLinkedInInsight(brief) {
+            const insights = [
+                "LinkedIn users engage 3x more with personal stories than corporate announcements.",
+                "Thought leadership content drives 5x more profile views than promotional posts.",
+                "Questions in posts generate 50% more comments than statements.",
+                "Native LinkedIn content gets 2x the reach of external links.",
+                "Vulnerability and authenticity outperform polished corporate speak by 4x."
+            ];
+            return insights[Math.floor(Math.random() * insights.length)];
+        }
+
+        // Generate execution plan
+        function generateExecution(brief, technique, budget, timeline, variant) {
+            const executions = [
+                `Phase 1: Create a series of provocative LinkedIn posts challenging industry norms (Week 1-2)
+Phase 2: Launch an interactive tool or resource (Week 3-4)
+Phase 3: Amplify with thought leaders and organic engagement (Week 5-8)
+Budget allocation: 40% content creation, 30% influencer partnerships, 30% promotion`,
+                
+                `Launch Strategy: Begin with a bold LinkedIn article that reframes the problem
+Follow-up: Weekly content series featuring real customer stories
+Amplification: Engage employees as brand ambassadors
+Measurement: Track engagement, shares, and profile visits
+Budget: ${budget || 'Optimized for lean execution'}`,
+                
+                `Week 1-2: Soft launch with teaser content and audience research
+Week 3-4: Main campaign launch with hero content piece
+Week 5-6: Community engagement and user-generated content
+Week 7-8: Results showcase and thought leadership
+Timeline: ${timeline || 'Flexible based on performance'}`
+            ];
+            return executions[variant % executions.length];
+        }
+
+        // Display ideas in cards
+        function displayIdeas(ideas) {
+            const container = document.getElementById('ideas-container');
+            container.innerHTML = '';
+
+            ideas.forEach((idea, index) => {
+                const card = document.createElement('div');
+                card.className = 'idea-card';
+                card.innerHTML = `
+                    <button class="select-idea-btn" onclick="selectIdea(${index})" id="selectBtn${index}">
+                        Select for PPT
+                    </button>
+                    <h3>💡 Idea ${idea.number}: ${idea.title}</h3>
+                    <p><strong>🎯 The Big Idea:</strong> ${idea.bigIdea}</p>
+                    <p><strong>👤 Human Insight:</strong> ${idea.humanInsight}</p>
+                    <p><strong>💼 LinkedIn Insight:</strong> ${idea.linkedinInsight}</p>
+                    <p><strong>⚡ Execution:</strong></p>
+                    <p style="white-space: pre-line; opacity: 0.9;">${idea.execution}</p>
+                    <span class="technique-tag">${idea.technique}</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Select idea for PPT
+        function selectIdea(index) {
+            // Remove previous selection
+            document.querySelectorAll('.select-idea-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.textContent = 'Select for PPT';
+            });
+
+            // Mark new selection
+            const btn = document.getElementById(`selectBtn${index}`);
+            btn.classList.add('selected');
+            btn.textContent = '✓ Selected';
+
+            // Get idea data
+            const container = document.getElementById('ideas-container');
+            const ideaCards = container.querySelectorAll('.idea-card');
+            const selectedCard = ideaCards[index];
+
+            selectedIdea = {
+                title: selectedCard.querySelector('h3').textContent,
+                bigIdea: selectedCard.querySelectorAll('p')[0].textContent.replace('🎯 The Big Idea: ', ''),
+                humanInsight: selectedCard.querySelectorAll('p')[1].textContent.replace('👤 Human Insight: ', ''),
+                linkedinInsight: selectedCard.querySelectorAll('p')[2].textContent.replace('💼 LinkedIn Insight: ', ''),
+                execution: selectedCard.querySelectorAll('p')[4].textContent
+            };
+
+            // Enable PPT button
+            const pptBtn = document.getElementById('pptBtn');
+            pptBtn.disabled = false;
+            pptBtn.style.opacity = '1';
+        }
+
+        // Generate PowerPoint
+        function generatePPT() {
+            if (!selectedIdea) {
+                alert('Please select an idea first!');
+                return;
+            }
+
+            let pptx = new PptxGenJS();
+
+            // Set presentation properties
+            pptx.layout = 'LAYOUT_16x9';
+            pptx.author = 'Lion Brain Creative Assistant';
+            pptx.title = 'Creative Campaign Proposal';
+
+            // Color scheme
+            const colors = {
+                primary: 'F39C12',
+                dark: '1A1A2E',
+                light: 'FFFFFF',
+                accent: 'D68910'
+            };
+
+            // Slide 1: The Brief
+            let slide1 = pptx.addSlide();
+            slide1.background = { color: colors.dark };
+            slide1.addText('THE BRIEF', {
+                x: 0.5, y: 0.5, w: '90%', h: 1,
+                fontSize: 44, bold: true, color: colors.primary,
+                align: 'center'
+            });
+            slide1.addText(currentBrief.brief, {
+                x: 0.5, y: 2, w: '90%', h: 3,
+                fontSize: 18, color: colors.light,
+                align: 'left', valign: 'top'
+            });
+            if (currentBrief.budget) {
+                slide1.addText(`Budget: ${currentBrief.budget}`, {
+                    x: 0.5, y: 5.2, w: '40%', h: 0.5,
+                    fontSize: 14, color: colors.primary
+                });
+            }
+            if (currentBrief.timeline) {
+                slide1.addText(`Timeline: ${currentBrief.timeline}`, {
+                    x: 5, y: 5.2, w: '40%', h: 0.5,
+                    fontSize: 14, color: colors.primary
+                });
+            }
+
+            // Slide 2: Human Insight
+            let slide2 = pptx.addSlide();
+            slide2.background = { color: colors.dark };
+            slide2.addText('HUMAN INSIGHT', {
+                x: 0.5, y: 0.5, w: '90%', h: 1,
+                fontSize: 44, bold: true, color: colors.primary,
+                align: 'center'
+            });
+            slide2.addText('"' + selectedIdea.humanInsight + '"', {
+                x: 1, y: 3, w: '80%', h: 2,
+                fontSize: 24, color: colors.light,
+                align: 'center', valign: 'middle',
+                italic: true
+            });
+
+            // Slide 3: LinkedIn Insight
+            let slide3 = pptx.addSlide();
+            slide3.background = { color: colors.dark };
+            slide3.addText('LINKEDIN INSIGHT', {
+                x: 0.5, y: 0.5, w: '90%', h: 1,
+                fontSize: 44, bold: true, color: colors.primary,
+                align: 'center'
+            });
+            slide3.addText(selectedIdea.linkedinInsight, {
+                x: 1, y: 3, w: '80%', h: 2,
+                fontSize: 22, color: colors.light,
+                align: 'center', valign: 'middle'
+            });
+
+            // Slide 4: The Big Idea
+            let slide4 = pptx.addSlide();
+            slide4.background = { color: colors.primary };
+            slide4.addText('THE BIG IDEA', {
+                x: 0.5, y: 0.5, w: '90%', h: 1,
+                fontSize: 44, bold: true, color: colors.dark,
+                align: 'center'
+            });
+            slide4.addText('🦁', {
+                x: '45%', y: 1.8, w: '10%', h: 1,
+                fontSize: 72, align: 'center'
+            });
+            slide4.addText(selectedIdea.bigIdea, {
+                x: 1, y: 3.2, w: '80%', h: 2.5,
+                fontSize: 26, color: colors.dark,
+                align: 'center', valign: 'middle',
+                bold: true
+            });
+
+            // Slide 5: How Do We Execute
+            let slide5 = pptx.addSlide();
+            slide5.background = { color: colors.dark };
+            slide5.addText('HOW DO WE EXECUTE', {
+                x: 0.5, y: 0.5, w: '90%', h: 1,
+                fontSize: 44, bold: true, color: colors.primary,
+                align: 'center'
+            });
+            slide5.addText(selectedIdea.execution, {
+                x: 1, y: 2, w: '80%', h: 4,
+                fontSize: 16, color: colors.light,
+                align: 'left', valign: 'top',
+                lineSpacing: 24
+            });
+            slide5.addText('⚡ Ready to make it happen', {
+                x: 1, y: 6.2, w: '80%', h: 0.5,
+                fontSize: 14, color: colors.primary,
+                italic: true
+            });
+
+            // Save the presentation
+            pptx.writeFile({ fileName: 'Lion_Brain_Creative_Proposal.pptx' });
+            
+            alert('🎉 PowerPoint generated successfully!');
+        }
+
+        // Load skill data on page load
+        window.addEventListener('DOMContentLoaded', loadSkillData);
+    </script>
+</body>
+</html>
