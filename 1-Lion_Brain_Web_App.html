@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦁 Lion Brain Creative Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #0f1419;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #e94560 0%, #d63956 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #e94560;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-section, .output-section {
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #16213e;
+            border: 2px solid #2a3f5f;
+            border-radius: 10px;
+            color: #eee;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        textarea::placeholder {
+            color: #888;
+        }
+
+        #brief-input {
+            min-height: 150px;
+        }
+
+        #output {
+            min-height: 500px;
+            background: #0a0e14;
+            color: #00ff88;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560 0%, #d63956 100%);
+            color: white;
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: #0f3460;
+            color: white;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary:disabled:hover {
+            transform: none;
+        }
+
+        .status-bar {
+            background: #0f3460;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 0.95em;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .info-box {
+            background: rgba(233, 69, 96, 0.1);
+            border-left: 4px solid #e94560;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="emoji">🦁</span> LION BRAIN CREATIVE ASSISTANT</h1>
+            <p class="subtitle">Cannes Lions-Level Ideation System</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <div class="section-title">
+                    <span class="emoji">📝</span> PASTE YOUR BRIEF HERE:
+                </div>
+                <textarea 
+                    id="brief-input" 
+                    placeholder="Example: Samsung wants to dominate LinkedIn as a thought leader.
+Target: B2B professionals and decision makers
+Challenge: Stand out in crowded content space
+Budget: $500K
+
+Paste your creative brief here and click Generate Ideas!"
+                ></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button class="btn-primary" onclick="generateIdeas()">
+                    <span class="emoji">🚀</span> GENERATE IDEAS
+                </button>
+                <button class="btn-secondary" id="copy-btn" onclick="copyToClipboard()" disabled>
+                    <span class="emoji">📋</span> Copy Results
+                </button>
+                <button class="btn-secondary" id="download-btn" onclick="downloadResults()" disabled>
+                    <span class="emoji">💾</span> Download File
+                </button>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <strong>💡 Pro Tip:</strong> Include your brand, target audience, challenge, and any constraints for better ideas. The more specific your brief, the more targeted the creative thinking!
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section">
+                <div class="section-title">
+                    <span class="emoji">💡</span> GENERATED IDEAS:
+                </div>
+                <textarea id="output" readonly></textarea>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar" id="status">
+                <span class="emoji">🦁</span> Ready to generate Cannes-level ideas
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let generatedOutput = '';
+
+        function generateIdeas() {
+            const brief = document.getElementById('brief-input').value.trim();
+            
+            if (!brief) {
+                alert('⚠️ Please enter your creative brief first!');
+                return;
+            }
+
+            // Update status
+            updateStatus('🦁 Generating Cannes-level ideas...');
+
+            // Simulate processing delay for better UX
+            setTimeout(() => {
+                generatedOutput = createLionBrainOutput(brief);
+                document.getElementById('output').value = generatedOutput;
+                
+                // Enable buttons
+                document.getElementById('copy-btn').disabled = false;
+                document.getElementById('download-btn').disabled = false;
+                
+                updateStatus('✅ Ideas generated successfully! Ready to create culture.');
+            }, 500);
+        }
+
+        function createLionBrainOutput(brief) {
+            const now = new Date();
+            const timestamp = now.toLocaleString();
+
+            return `╔══════════════════════════════════════════════════════════════╗
+║          🦁 LION BRAIN CREATIVE SYSTEM - OUTPUT             ║
+╔══════════════════════════════════════════════════════════════╗
+
+Generated: ${timestamp}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 YOUR BRIEF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${brief}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧠 PHASE 1: STRATEGIC FOUNDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Real Problem: Beyond the surface ask, what BEHAVIOR needs to change?
+
+Human Insight: What's the uncomfortable truth nobody says out loud?
+
+Single-Minded Proposition: If you could only say ONE thing, what 
+would make people care?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 PHASE 2: BIG IDEAS (Using 5 Thinking Techniques)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔄 OPPOSITE THINKING (Do what everyone else doesn't)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDEA 1: "The Anti-Campaign"
+Instead of shouting louder, go silent and create mystery. Make 
+scarcity the statement. Less is more powerful.
+
+IDEA 2: "Celebrate the 'Wrong' Audience"  
+Target everyone EXCEPT your typical customer. Make the unexpected 
+choice. Shock creates conversation.
+
+
+🌍 CULTURAL HIJACKING (Tap into what's happening NOW)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDEA 3: "Ride the Current Debate"
+Find the cultural tension everyone's arguing about. Take an 
+authentic stand. Make the brand part of the conversation.
+
+IDEA 4: "The Zeitgeist Moment"
+Create something that could ONLY work right now. Time-sensitive = 
+urgency = shareability. Strike while culturally hot.
+
+
+🔀 REFRAME THE PROBLEM (Turn weakness into strength)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDEA 5: "The 'Flaw' Feature"
+What everyone sees as a negative, celebrate as a positive. Small = 
+intimate. Slow = thoughtful. Expensive = exclusive.
+
+IDEA 6: "Last Place Leaders"
+If you're not #1, own being the underdog. Make scrappiness your 
+superpower. People love rooting for challengers.
+
+
+⚡ MAKE IT REAL (Create utility, not just messages)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDEA 7: "The Useful Product"
+Don't advertise, create something people actually need. A tool, 
+service, or experience with real value. Utility = love.
+
+IDEA 8: "Open Source Generosity"
+Give away knowledge, data, or resources. Make competitors and 
+customers smarter. Generosity builds authority.
+
+
+🔥 PROVOKE, DON'T PERSUADE (Start conversations)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDEA 9: "The Uncomfortable Question"
+Ask what everyone thinks but won't say. Make them squirm (in a 
+good way). Discomfort = attention = discussion.
+
+IDEA 10: "The Controversial Stand"
+Take a position that will make some people angry. Polarization 
+creates passion. Safe = forgettable. Bold = memorable.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏆 CANNES-LEVEL CRITERIA CHECK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For each idea, ask:
+
+✓ Simple enough to explain in one sentence?
+✓ Big enough to work across any medium?
+✓ Rooted in genuine human insight?
+✓ Ownable by the brand?
+✓ Makes you feel something?
+✓ Has cultural tension or relevance?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Pick your top 3 ideas
+2. Develop them using PHASE 3: EXECUTION EXCELLENCE
+3. Run through THE BRUTAL QUESTIONS
+4. Refine until Cannes-worthy
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💭 Remember: Cannes Lions winners don't create ads. 
+   They create culture.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+            
+            updateStatus('📋 Copied to clipboard!');
+            
+            setTimeout(() => {
+                updateStatus('✅ Ideas generated successfully! Ready to create culture.');
+            }, 2000);
+        }
+
+        function downloadResults() {
+            if (!generatedOutput) return;
+            
+            const now = new Date();
+            const filename = `Lion_Brain_Ideas_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}.txt`;
+            
+            const blob = new Blob([generatedOutput], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            updateStatus('💾 Downloaded as ' + filename);
+            
+            setTimeout(() => {
+                updateStatus('✅ Ideas generated successfully! Ready to create culture.');
+            }, 3000);
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').innerHTML = message;
+        }
+
+        // Keyboard shortcut: Ctrl/Cmd + Enter to generate
+        document.getElementById('brief-input').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                generateIdeas();
+            }
+        });
+    </script>
+</body>
+</html>
